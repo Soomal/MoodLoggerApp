@@ -1,14 +1,30 @@
 package scu.edu.moodlogger;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 public class MoodLoggingActivity extends Activity {
@@ -18,12 +34,10 @@ public class MoodLoggingActivity extends Activity {
             "Excited", "Cool", "Bored", "Sleepy", "Neutral", "Crying", "Romantic", "Sad"
     };
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mood_logging);
-
 
         gridView = (GridView) findViewById(R.id.gridView_emoticons);
         gridView.setVerticalSpacing(1);
@@ -34,6 +48,7 @@ public class MoodLoggingActivity extends Activity {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView parent, View v,
                                     int position, long id) {
+
                 Toast.makeText(
                         getApplicationContext(),
                         ((TextView) v.findViewById(R.id.label_emoticon)).getText(), Toast.LENGTH_SHORT).show();
