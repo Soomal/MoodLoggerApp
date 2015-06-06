@@ -52,7 +52,7 @@ public class DBUserAdapter
                     "  `userid` varchar(200) NOT NULL," +
                     "  `moodid` int(11) NOT NULL," +
                     "  `date` varchar(50) NOT NULL," +
-                  //  "  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,\n" +
+                    //  "  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,\n" +
 
                     "  `picture` varchar(200) NOT NULL," +
                     "  `notes` varchar(1000) NOT NULL," +
@@ -70,8 +70,6 @@ public class DBUserAdapter
   `notes` varchar(1000) NOT NULL,
   `location` varchar(50) NOT NULL
 )
-
-
      */
 
 
@@ -128,7 +126,7 @@ public class DBUserAdapter
             db.execSQL(DATABASE_CREATE);
             db.execSQL(DATABASE_CREATE_MOOD);
             //mock data for the database.
-           // db.execSQL(DATABASE_MOOD_SAMPLE);
+            // db.execSQL(DATABASE_MOOD_SAMPLE);
 
         }
 
@@ -178,33 +176,33 @@ public class DBUserAdapter
         return false;
     }
 
-/**
- * @input : user id
- * @output: data Structure with the number of moods
- *
- */
+    /**
+     * @input : user id
+     * @output: data Structure with the number of moods
+     *
+     */
 
-public DataTypeChart getData(String username) throws SQLException
-{
+    public DataTypeChart getData(String username) throws SQLException
+    {
 
-    DataTypeChart data= new DataTypeChart();
-    Cursor mCursor = db.rawQuery("SELECT * FROM moods WHERE username='ab'",null);
-    if (mCursor != null) {
-        if(mCursor.getCount() > 0)
-        {
-            data.numberOfData=mCursor.getCount();
+        DataTypeChart data= new DataTypeChart();
+        Cursor mCursor = db.rawQuery("SELECT * FROM moods WHERE username='ab'",null);
+        if (mCursor != null) {
+            if(mCursor.getCount() > 0)
+            {
+                data.numberOfData=mCursor.getCount();
 
-            int duration = Toast.LENGTH_SHORT;
+                int duration = Toast.LENGTH_SHORT;
 
 
-            Toast toast = Toast.makeText(context, mCursor.getCount(), duration);
-            toast.show();
-            return data;
+                Toast toast = Toast.makeText(context, mCursor.getCount(), duration);
+                toast.show();
+                return data;
+            }
         }
+        data.numberOfData=0;
+        return data;
     }
-    data.numberOfData=0;
-    return data;
-}
 
 
 
