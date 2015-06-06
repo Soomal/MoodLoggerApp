@@ -45,7 +45,7 @@ public class MoodLoggingActivity extends Activity {
                     //getting the user id that has been temporarily stored
                     SharedPreferences sp = getSharedPreferences("user_pref", Activity.MODE_PRIVATE);
                     String userid = sp.getString("user_key", "");
-                    String date_current = new SimpleDateFormat("yyyyMMdd").format(new Date());
+                    String date_current = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
 
                     //insertRow(String userId, int moodId, String date, String picture, String notes, String location) {
 
