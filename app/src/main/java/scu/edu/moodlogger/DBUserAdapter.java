@@ -7,7 +7,9 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.security.Timestamp;
 import java.sql.SQLException;
+import java.util.Date;
 
 /**
  * Created by vijay on 5/29/2015.
@@ -23,6 +25,14 @@ public class DBUserAdapter
 
     public static final String KEY_USERNAME= "username";
     public static final String KEY_PASSWORD = "password";
+
+    public static final String KEY_USERID= "userid";
+    public static final String KEY_MOODID = "moodid";
+    public static final String KEY_DATE= "date";
+    public static final String KEY_PICTURE= "picture";
+    public static final String KEY_NOTE= "notes";
+    public static final String KEY_LOCATION = "location";
+
     private static final String TAG = "DBAdapter";
 
     private static final String DATABASE_NAME = "usersdb";
@@ -41,7 +51,9 @@ public class DBUserAdapter
             "    CREATE TABLE IF NOT EXISTS `mood` (" +
                     "  `userid` varchar(200) NOT NULL," +
                     "  `moodid` int(11) NOT NULL," +
-                    "  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,\n" +
+                    "  `date` varchar(50) NOT NULL," +
+                  //  "  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,\n" +
+
                     "  `picture` varchar(200) NOT NULL," +
                     "  `notes` varchar(1000) NOT NULL," +
                     "  `location` varchar(50) NOT NULL" +
@@ -77,6 +89,21 @@ public class DBUserAdapter
                     "('ab', 2, '2015-06-04 00:57:51', 'Sleepy for a change', 'Sleepy', '')," +
                     "('ab', 3, '2015-06-04 00:57:51', 'Bored', 'Bored', 'Bored');";
 
+    // Add a new set of values to be inserted into the database.
+    public long insertMood(String userId, int moodId, String date, String picture, String notes, String location) {
+        ContentValues initialValues = new ContentValues();
+        initialValues.put(KEY_USERID, userId);
+        initialValues.put(KEY_MOODID, moodId);
+        initialValues.put(KEY_DATE, date);
+        initialValues.put(KEY_PICTURE, picture);
+        initialValues.put(KEY_NOTE, notes);
+        initialValues.put(KEY_LOCATION, location);
+
+        // Insert the data into the database.
+        return db.insert(DATABASE_TABLE_MOODS, null, initialValues);
+    }
+
+
 
     private Context context = null;
     private DatabaseHelper DBHelper;
@@ -101,7 +128,7 @@ public class DBUserAdapter
             db.execSQL(DATABASE_CREATE);
             db.execSQL(DATABASE_CREATE_MOOD);
             //mock data for the database.
-            db.execSQL(DATABASE_MOOD_SAMPLE);
+           // db.execSQL(DATABASE_MOOD_SAMPLE);
 
         }
 

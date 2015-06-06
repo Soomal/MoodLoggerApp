@@ -1,28 +1,17 @@
 package scu.edu.moodlogger;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.GridView;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.File;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -30,6 +19,8 @@ import java.util.Date;
 public class MoodLoggingActivity extends Activity {
 
     GridView gridView;
+    DBUserAdapter dbUser = new DBUserAdapter(MoodLoggingActivity.this);
+
     static final String[] images = new String[]{"Happy", "Confused", "Naughty", "Angry",
             "Excited", "Cool", "Bored", "Sleepy", "Neutral", "Crying", "Romantic", "Sad"
     };
@@ -49,6 +40,25 @@ public class MoodLoggingActivity extends Activity {
             public void onItemClick(AdapterView parent, View v,
                                     int position, long id) {
 
+                try {
+                    dbUser.open();
+                    //getting the user id that has been temporarily stored
+                    SharedPreferences sp = getSharedPreferences("user_pref", Activity.MODE_PRIVATE);
+                    String userid = sp.getString("user_key", "");
+                    String date_current = new SimpleDateFormat("yyyyMMdd").format(new Date());
+
+                    //insertRow(String userId, int moodId, String date, String picture, String notes, String location) {
+
+                    dbUser.insertMood(userid, position + 1, date_current, "", "", "");
+
+                    Toast.makeText(
+                            getApplicationContext(),
+                            "added to database", Toast.LENGTH_SHORT).show();
+                } catch (Exception e) {
+
+                    Log.i("database", "Error in Adding to database");
+
+                }
                 Toast.makeText(
                         getApplicationContext(),
                         ((TextView) v.findViewById(R.id.label_emoticon)).getText(), Toast.LENGTH_SHORT).show();
@@ -58,6 +68,35 @@ public class MoodLoggingActivity extends Activity {
 
     }
 
+
+    // To insert file path, caption and location in the database
+    private void addToDB(View v) {
+        try {
+
+
+            dbUser.open();
+
+
+        } catch (Exception e) {
+
+
+            //getting the user id that has been temporarily stored
+            SharedPreferences sp = getSharedPreferences("user_pref", Activity.MODE_PRIVATE);
+            String userid = sp.getString("user_key", "");
+            String date_current = new SimpleDateFormat("yyyyMMdd").format(new Date());
+
+            //insertRow(String userId, int moodId, String date, String picture, String notes, String location) {
+
+            dbUser.insertMood(userid, 1, date_current, "", "", "");
+
+            Toast.makeText(
+                    getApplicationContext(),
+                    "added to database", Toast.LENGTH_SHORT).show();
+            Log.i("database", "Added to database");
+        }
+
+
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
