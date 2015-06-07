@@ -12,10 +12,6 @@ import java.security.Timestamp;
 import java.sql.SQLException;
 import java.util.Date;
 
-/**
- * Created by vijay on 5/29/2015.
- */
-
 
 public class DBUserAdapter {
 
@@ -125,8 +121,6 @@ public class DBUserAdapter {
         public void onCreate(SQLiteDatabase db) {
             db.execSQL(DATABASE_CREATE);
             db.execSQL(DATABASE_CREATE_MOOD);
-            //mock data for the database.
-            // db.execSQL(DATABASE_MOOD_SAMPLE);
 
         }
 
@@ -196,40 +190,21 @@ public class DBUserAdapter {
     }
 
 
-    // get moodid
-    public String getMood(String sDate) {
+    /**
+    * @input : String user id, String date
+    * @output: String mood
+    */
 
-//        ImageDetails images = null;
-        // int i = 0;
-        String where = KEY_DATE + " LIKE '%" +sDate+"%' "; //" CONTAINS " +sDate; //+ "=" + sDate;
+    public String getMood(String sDate, String userid) {
+
+        String where = KEY_DATE + " LIKE '%" +sDate+"%' AND " +KEY_USERID+ " = '" +userid+ "'";
         String orderBy = KEY_ROWID + " DESC";
         Cursor c = db.query(true, DATABASE_TABLE_MOODS, ALL_KEYS_MOOD, where, null, null, null, orderBy, null);
 
-        //int cRow = 0, cMood=0;
         String cMood = null;
-
-//        String cCaption, cPath, cDate, cLocation;
-//
         if (c != null && (c.getCount() > 0)) {
             c.moveToFirst();
-       //     cRow = c.getInt(c.getColumnIndex(KEY_ROWID));
             cMood = c.getString(c.getColumnIndex(KEY_MOOD));
-
-//            cCaption = c.getString(c.getColumnIndex(KEY_CAPTION));
-//            cPath = c.getString(c.getColumnIndex(KEY_PATH));
-//            cDate = c.getString(c.getColumnIndex(KEY_DATE));
-//            cLocation = c.getString(c.getColumnIndex(KEY_LOCATION));
-//            images = new ImageDetails();
-//            images.setRow_id(cRow);
-//            images.setCaption(cCaption);
-//            images.setPath(cPath);
-//            images.setDate(cDate);
-//            images.setLocation(cLocation);
-//
-//        }
-//
-//        return images;
-//    }
 
         }
         return cMood;

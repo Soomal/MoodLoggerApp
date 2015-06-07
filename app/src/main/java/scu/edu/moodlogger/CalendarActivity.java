@@ -2,7 +2,9 @@ package scu.edu.moodlogger;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.gesture.Gesture;
 import android.gesture.GestureLibraries;
 import android.gesture.GestureLibrary;
@@ -12,7 +14,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Environment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.format.DateFormat;
@@ -29,6 +33,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -56,7 +67,7 @@ public class CalendarActivity extends Activity implements View.OnClickListener, 
     DBUserAdapter myDb;
     private String photoPath = "";
     private GestureLibrary mLibrary;
-
+    DBUserAdapter dbUser = new DBUserAdapter(CalendarActivity.this);
 
     private void getRequestParameters() {
         Intent intent = getIntent();
@@ -76,6 +87,8 @@ public class CalendarActivity extends Activity implements View.OnClickListener, 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        saveImage();
+
         GestureOverlayView gestureOverlayView = new GestureOverlayView(this);
         View inflate = getLayoutInflater().inflate(
                 R.layout.activity_calendar, null);
@@ -362,24 +375,22 @@ public class CalendarActivity extends Activity implements View.OnClickListener, 
                     e.printStackTrace();
                 }
 
-                String s = myDb.getMood(gridDate);
-                if(s!=null) {
-                    //Toast.makeText(getApplicationContext(),s, Toast.LENGTH_SHORT).show();
-                   // int i = Integer.parseInt("R.drawable." + s);
-                    gridcell.setBackgroundResource(R.drawable.happy);
+                Bitmap b = null;
+                try {
+                    try {
+                        b = getThumbnail(gridDate);
+                    } catch (URISyntaxException e) {
+                        e.printStackTrace();
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
-//                Bitmap b = null;
-//                try {
-//                    b = getThumbnail(gridDate);
-//                } catch (SQLException e) {
-//                    e.printStackTrace();
-//                }
 //
 //
-//                if (b != null) {
-//                    BitmapDrawable ob = new BitmapDrawable(getResources(), b);
-//                    gridcell.setBackground(ob);
-//                }
+                if (b != null) {
+                    BitmapDrawable ob = new BitmapDrawable(getResources(), b);
+                    gridcell.setBackground(ob);
+                }
 
             }
             if (position - spaces + 1 == currentDayOfMonth) {
@@ -392,8 +403,26 @@ public class CalendarActivity extends Activity implements View.OnClickListener, 
         @Override
         public void onClick(View view) {
 
+            try {
+                dbUser.open();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            //getting the user id that has been temporarily stored
+            SharedPreferences sp = getSharedPreferences("user_pref", Activity.MODE_PRIVATE);
+            String userid = sp.getString("user_key", "");
+
             String gridCellTag = (String) view.getTag();
-            //   Intent intent = new Intent(getApplicationContext(), ViewPhotoActivity.class);
+            String s = myDb.getMood(gridCellTag, userid);
+            if(s!=null){
+                Toast.makeText(
+                        getApplicationContext(),"You were "+s+" on "+ gridCellTag , Toast.LENGTH_SHORT).show();
+            }else{
+                Toast.makeText(
+                        getApplicationContext(),"No mood recorded" , Toast.LENGTH_SHORT).show();
+            }
+//               Intent intent = new Intent(getApplicationContext(), ViewPhotoActivity.class);
 //                intent.putExtra("gridcell", gridCellTag);
 //                startActivity(intent);
 
@@ -402,34 +431,95 @@ public class CalendarActivity extends Activity implements View.OnClickListener, 
 
 
     //Fetch thumbnail of the image for a date
-    private Bitmap getThumbnail(String sDate) throws SQLException {
-        String imageName = null;
+    private Bitmap getThumbnail(String sDate) throws SQLException, URISyntaxException {
         openDB();
+        Bitmap sourceBitmap = null;
 
-        String s = myDb.getMood(sDate);
+        dbUser.open();
 
-//            ImageDetails images = myDb.getImage(sDate);
-//            if (images != null) {
-//                imageName = images.getPath();
-//            }
-//            photoPath = Environment.getExternalStoragePublicDirectory(
-//                    Environment.DIRECTORY_PICTURES) + "/OneADay/" + imageName;
-//            Log.i("photopath", photoPath);
+        //getting the user id that has been temporarily stored
+        SharedPreferences sp = getSharedPreferences("user_pref", Activity.MODE_PRIVATE);
+        String userid = sp.getString("user_key", "");
 
+        String s = myDb.getMood(sDate, userid);
 
         if (s != null) {
             Log.i("mood", s);
-           // Uri path = Uri.parse("android.resource://your.package.name/" + R.drawable.sample_1);
+            //  String path = getBitmapImagePath(s);
+            ContextWrapper cw = new ContextWrapper(getApplicationContext());
+            // path to /data/data/yourapp/app_data/imageDir
+            File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
+            File f = new File(directory.getAbsolutePath(), s + ".png");
 
-
-            String path = "R.drawable." + s;
             BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inSampleSize = 2;  // Experiment with different sizes
-            Bitmap sourceBitmap = BitmapFactory.decodeFile(path, options);
-            return sourceBitmap;
+            options.inSampleSize = 4;  // Experiment with different sizes
+            sourceBitmap = BitmapFactory.decodeFile(f.getAbsolutePath(), options);
+            Log.i("path", f.getAbsolutePath().toString() );
         }
-        return null;
+        return sourceBitmap;
+
     }
+
+    private void saveToInternalStorage(Bitmap bitmapImage, String mood) {
+        ContextWrapper cw = new ContextWrapper(getApplicationContext());
+        // path to /data/data/yourapp/app_data/imageDir
+        File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
+        // Create imageDir
+        File mypath = new File(directory, mood + ".png");
+
+        FileOutputStream fos = null;
+        try {
+
+            fos = new FileOutputStream(mypath);
+
+            // Use the compress method on the BitMap object to write image to the OutputStream
+            bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
+            fos.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        // return directory.getAbsolutePath();
+    }
+
+
+    private void saveImage() {
+        Bitmap bitMapHappy = BitmapFactory.decodeResource(getResources(), R.drawable.happy);
+        saveToInternalStorage(bitMapHappy, "happy");
+
+        Bitmap bitMapConfused = BitmapFactory.decodeResource(getResources(), R.drawable.confused);
+        saveToInternalStorage(bitMapConfused, "confused");
+
+        Bitmap bitMapNaughty = BitmapFactory.decodeResource(getResources(), R.drawable.naughty);
+        saveToInternalStorage(bitMapNaughty, "naughty");
+
+        Bitmap bitMapAngry = BitmapFactory.decodeResource(getResources(), R.drawable.angry);
+        saveToInternalStorage(bitMapAngry, "angry");
+
+        Bitmap bitMapExcited = BitmapFactory.decodeResource(getResources(), R.drawable.excited);
+        saveToInternalStorage(bitMapExcited, "excited");
+
+        Bitmap bitMapCool = BitmapFactory.decodeResource(getResources(), R.drawable.cool);
+        saveToInternalStorage(bitMapCool, "cool");
+
+        Bitmap bitMapBored = BitmapFactory.decodeResource(getResources(), R.drawable.bored);
+        saveToInternalStorage(bitMapBored, "bored");
+
+        Bitmap bitMapSleepy = BitmapFactory.decodeResource(getResources(), R.drawable.sleepy);
+        saveToInternalStorage(bitMapSleepy, "sleepy");
+
+        Bitmap bitMapNeutral = BitmapFactory.decodeResource(getResources(), R.drawable.neutral);
+        saveToInternalStorage(bitMapNeutral, "neutral");
+
+        Bitmap bitMapCrying = BitmapFactory.decodeResource(getResources(), R.drawable.crying);
+        saveToInternalStorage(bitMapCrying, "crying");
+
+        Bitmap bitMapRomantic = BitmapFactory.decodeResource(getResources(), R.drawable.romantic);
+        saveToInternalStorage(bitMapRomantic, "romantic");
+
+        Bitmap bitMapHSad = BitmapFactory.decodeResource(getResources(), R.drawable.sad);
+        saveToInternalStorage(bitMapHSad, "sad");
+    }
+
 
     private void openDB() throws SQLException {
         myDb = new DBUserAdapter(this);

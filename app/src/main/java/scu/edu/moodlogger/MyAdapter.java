@@ -21,13 +21,7 @@ public class MyAdapter extends BaseAdapter {
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        View gridView;
-
-//        if (convertView != null) {
-//            gridView =  convertView;
-//        }else{
-
-            gridView = new View(context);
+        View gridView = new View(context);
 
             gridView = inflater.inflate(R.layout.emoticons, null);
 
