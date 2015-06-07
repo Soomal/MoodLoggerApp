@@ -21,8 +21,8 @@ public class MoodLoggingActivity extends Activity {
     GridView gridView;
     DBUserAdapter dbUser = new DBUserAdapter(MoodLoggingActivity.this);
 
-    static final String[] images = new String[]{"Happy", "Confused", "Naughty", "Angry",
-            "Excited", "Cool", "Bored", "Sleepy", "Neutral", "Crying", "Romantic", "Sad"
+    static final String[] images = new String[]{"happy", "confused", "naughty", "angry",
+            "excited", "cool", "bored", "sleepy", "neutral", "crying", "romantic", "sad"
     };
 
     @Override
@@ -46,10 +46,10 @@ public class MoodLoggingActivity extends Activity {
                     SharedPreferences sp = getSharedPreferences("user_pref", Activity.MODE_PRIVATE);
                     String userid = sp.getString("user_key", "");
                     String date_current = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-
+                    String mood = ((TextView) v.findViewById(R.id.label_emoticon)).getText().toString();
                     //insertRow(String userId, int moodId, String date, String picture, String notes, String location) {
 
-                    dbUser.insertMood(userid, position + 1, date_current, "", "", "");
+                    dbUser.insertMood(userid, position + 1, mood, date_current, "", "", "");
 
                     Toast.makeText(
                             getApplicationContext(),
@@ -68,35 +68,6 @@ public class MoodLoggingActivity extends Activity {
 
     }
 
-
-    // To insert file path, caption and location in the database
-    private void addToDB(View v) {
-        try {
-
-
-            dbUser.open();
-
-
-        } catch (Exception e) {
-
-
-            //getting the user id that has been temporarily stored
-            SharedPreferences sp = getSharedPreferences("user_pref", Activity.MODE_PRIVATE);
-            String userid = sp.getString("user_key", "");
-            String date_current = new SimpleDateFormat("yyyyMMdd").format(new Date());
-
-            //insertRow(String userId, int moodId, String date, String picture, String notes, String location) {
-
-            dbUser.insertMood(userid, 1, date_current, "", "", "");
-
-            Toast.makeText(
-                    getApplicationContext(),
-                    "added to database", Toast.LENGTH_SHORT).show();
-            Log.i("database", "Added to database");
-        }
-
-
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
