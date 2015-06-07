@@ -14,6 +14,8 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import scu.edu.moodlogger.graph.GraphViewFragmentActivity;
+
 
 public class MainActivity extends Activity {
 
@@ -78,7 +80,8 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
 
-                Intent chartIntent = new Intent(getApplicationContext(), ChartActivity.class);
+//                Intent chartIntent = new Intent(getApplicationContext(), ChartActivity.class);
+                Intent chartIntent = new Intent(getApplicationContext(), GraphViewFragmentActivity.class);
                 startActivity(chartIntent);
 
             }
