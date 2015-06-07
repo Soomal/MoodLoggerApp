@@ -1,4 +1,5 @@
 package scu.edu.moodlogger;
+
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -16,22 +17,23 @@ import java.util.Date;
  */
 
 
-public class DBUserAdapter
-{
-    public static final String KEY_ROWID = "_id";
+public class DBUserAdapter {
 
-    public static final String KEY_FIRSTNAME= "username";
+    public static final String KEY_FIRSTNAME = "username";
     public static final String KEY_LASTNAME = "password";
 
-    public static final String KEY_USERNAME= "username";
+    public static final String KEY_USERNAME = "username";
     public static final String KEY_PASSWORD = "password";
 
-    public static final String KEY_USERID= "userid";
+    public static final String KEY_ROWID = "rowid";
+    public static final String KEY_USERID = "userid";
     public static final String KEY_MOODID = "moodid";
-    public static final String KEY_DATE= "date";
-    public static final String KEY_PICTURE= "picture";
-    public static final String KEY_NOTE= "notes";
+    public static final String KEY_MOOD = "mood";
+    public static final String KEY_DATE = "date";
+    public static final String KEY_PICTURE = "picture";
+    public static final String KEY_NOTE = "notes";
     public static final String KEY_LOCATION = "location";
+    public static final String[] ALL_KEYS_MOOD = new String[]{KEY_ROWID, KEY_USERID, KEY_MOODID, KEY_MOOD, KEY_DATE, KEY_PICTURE, KEY_NOTE, KEY_LOCATION};
 
     private static final String TAG = "DBAdapter";
 
@@ -49,14 +51,16 @@ public class DBUserAdapter
 
     private static final String DATABASE_CREATE_MOOD =
             "    CREATE TABLE IF NOT EXISTS `mood` (" +
-                    "  `userid` varchar(200) NOT NULL," +
-                    "  `moodid` int(11) NOT NULL," +
-                    "  `date` varchar(50) NOT NULL," +
+                    "  `rowid` INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    "  `userid` TEXT NOT NULL," +
+                    "  `moodid` INTEGER NOT NULL," +
+                    "  `mood` TEXT NOT NULL," +
+                    "  `date` TEXT NOT NULL," +
                     //  "  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,\n" +
 
-                    "  `picture` varchar(200) NOT NULL," +
-                    "  `notes` varchar(1000) NOT NULL," +
-                    "  `location` varchar(50) NOT NULL" +
+                    "  `picture` TEXT NOT NULL," +
+                    "  `notes` TEXT NOT NULL," +
+                    "  `location` TEXT NOT NULL" +
                     ")";
 
 
@@ -88,10 +92,11 @@ public class DBUserAdapter
                     "('ab', 3, '2015-06-04 00:57:51', 'Bored', 'Bored', 'Bored');";
 
     // Add a new set of values to be inserted into the database.
-    public long insertMood(String userId, int moodId, String date, String picture, String notes, String location) {
+    public long insertMood(String userId, int moodId, String mood, String date, String picture, String notes, String location) {
         ContentValues initialValues = new ContentValues();
         initialValues.put(KEY_USERID, userId);
         initialValues.put(KEY_MOODID, moodId);
+        initialValues.put(KEY_MOOD, mood);
         initialValues.put(KEY_DATE, date);
         initialValues.put(KEY_PICTURE, picture);
         initialValues.put(KEY_NOTE, notes);
@@ -102,27 +107,22 @@ public class DBUserAdapter
     }
 
 
-
     private Context context = null;
     private DatabaseHelper DBHelper;
     private SQLiteDatabase db;
 
-    public DBUserAdapter(Context ctx)
-    {
+    public DBUserAdapter(Context ctx) {
         this.context = ctx;
         DBHelper = new DatabaseHelper(context);
     }
 
-    private static class DatabaseHelper extends SQLiteOpenHelper
-    {
-        DatabaseHelper(Context context)
-        {
+    private static class DatabaseHelper extends SQLiteOpenHelper {
+        DatabaseHelper(Context context) {
             super(context, DATABASE_NAME, null, DATABASE_VERSION);
         }
 
         @Override
-        public void onCreate(SQLiteDatabase db)
-        {
+        public void onCreate(SQLiteDatabase db) {
             db.execSQL(DATABASE_CREATE);
             db.execSQL(DATABASE_CREATE_MOOD);
             //mock data for the database.
@@ -131,8 +131,7 @@ public class DBUserAdapter
         }
 
         @Override
-        public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
-        {
+        public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
             Log.w(TAG, "Upgrading database from version " + oldVersion
                     + " to "
                     + newVersion + ", which will destroy all old data");
@@ -142,19 +141,16 @@ public class DBUserAdapter
     }
 
 
-    public void open() throws SQLException
-    {
+    public void open() throws SQLException {
         db = DBHelper.getWritableDatabase();
     }
 
 
-    public void close()
-    {
+    public void close() {
         DBHelper.close();
     }
 
-    public long AddUser(String fname, String lname, String username, String password)
-    {
+    public long AddUser(String fname, String lname, String username, String password) {
         ContentValues initialValues = new ContentValues();
         initialValues.put(KEY_FIRSTNAME, fname);
         initialValues.put(KEY_LASTNAME, lname);
@@ -164,12 +160,10 @@ public class DBUserAdapter
 
     }
 
-    public boolean Login(String username, String password) throws SQLException
-    {
-        Cursor mCursor = db.rawQuery("SELECT * FROM " + DATABASE_TABLE_USERS + " WHERE username=? AND password=?", new String[]{username,password});
+    public boolean Login(String username, String password) throws SQLException {
+        Cursor mCursor = db.rawQuery("SELECT * FROM " + DATABASE_TABLE_USERS + " WHERE username=? AND password=?", new String[]{username, password});
         if (mCursor != null) {
-            if(mCursor.getCount() > 0)
-            {
+            if (mCursor.getCount() > 0) {
                 return true;
             }
         }
@@ -179,18 +173,15 @@ public class DBUserAdapter
     /**
      * @input : user id
      * @output: data Structure with the number of moods
-     *
      */
 
-    public DataTypeChart getData(String username) throws SQLException
-    {
+    public DataTypeChart getData(String username) throws SQLException {
 
-        DataTypeChart data= new DataTypeChart();
-        Cursor mCursor = db.rawQuery("SELECT * FROM moods WHERE username='ab'",null);
+        DataTypeChart data = new DataTypeChart();
+        Cursor mCursor = db.rawQuery("SELECT * FROM moods WHERE username='ab'", null);
         if (mCursor != null) {
-            if(mCursor.getCount() > 0)
-            {
-                data.numberOfData=mCursor.getCount();
+            if (mCursor.getCount() > 0) {
+                data.numberOfData = mCursor.getCount();
 
                 int duration = Toast.LENGTH_SHORT;
 
@@ -200,11 +191,48 @@ public class DBUserAdapter
                 return data;
             }
         }
-        data.numberOfData=0;
+        data.numberOfData = 0;
         return data;
     }
 
 
+    // get moodid
+    public String getMood(String sDate) {
 
+//        ImageDetails images = null;
+        // int i = 0;
+        String where = KEY_DATE + " LIKE '%" +sDate+"%' "; //" CONTAINS " +sDate; //+ "=" + sDate;
+        String orderBy = KEY_ROWID + " DESC";
+        Cursor c = db.query(true, DATABASE_TABLE_MOODS, ALL_KEYS_MOOD, where, null, null, null, orderBy, null);
 
+        //int cRow = 0, cMood=0;
+        String cMood = null;
+
+//        String cCaption, cPath, cDate, cLocation;
+//
+        if (c != null && (c.getCount() > 0)) {
+            c.moveToFirst();
+       //     cRow = c.getInt(c.getColumnIndex(KEY_ROWID));
+            cMood = c.getString(c.getColumnIndex(KEY_MOOD));
+
+//            cCaption = c.getString(c.getColumnIndex(KEY_CAPTION));
+//            cPath = c.getString(c.getColumnIndex(KEY_PATH));
+//            cDate = c.getString(c.getColumnIndex(KEY_DATE));
+//            cLocation = c.getString(c.getColumnIndex(KEY_LOCATION));
+//            images = new ImageDetails();
+//            images.setRow_id(cRow);
+//            images.setCaption(cCaption);
+//            images.setPath(cPath);
+//            images.setDate(cDate);
+//            images.setLocation(cLocation);
+//
+//        }
+//
+//        return images;
+//    }
+
+        }
+        return cMood;
+
+    }
 }

@@ -26,7 +26,10 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -50,7 +53,7 @@ public class CalendarActivity extends Activity implements View.OnClickListener, 
     private String gridDate;
     private final DateFormat dateFormatter = new DateFormat();
     private static final String dateTemplate = "MMMM yyyy";
-    DBAdapter myDb;
+    DBUserAdapter myDb;
     private String photoPath = "";
     private GestureLibrary mLibrary;
 
@@ -347,18 +350,36 @@ public class CalendarActivity extends Activity implements View.OnClickListener, 
                 }
 
 
-                gridDate = gridCellYear + gridCellMonth + gridCellDate;
+                gridDate = gridCellYear +
+                        "-" + gridCellMonth + "-" + gridCellDate;
                 gridcell.setTag(gridDate);
 
                 Log.i("gridDate", gridDate);
 
-                Bitmap b = getThumbnail(gridDate);
-
-
-                if (b != null) {
-                    BitmapDrawable ob = new BitmapDrawable(getResources(), b);
-                    gridcell.setBackground(ob);
+                try {
+                    openDB();
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
+
+                String s = myDb.getMood(gridDate);
+                if(s!=null) {
+                    //Toast.makeText(getApplicationContext(),s, Toast.LENGTH_SHORT).show();
+                   // int i = Integer.parseInt("R.drawable." + s);
+                    gridcell.setBackgroundResource(R.drawable.happy);
+                }
+//                Bitmap b = null;
+//                try {
+//                    b = getThumbnail(gridDate);
+//                } catch (SQLException e) {
+//                    e.printStackTrace();
+//                }
+//
+//
+//                if (b != null) {
+//                    BitmapDrawable ob = new BitmapDrawable(getResources(), b);
+//                    gridcell.setBackground(ob);
+//                }
 
             }
             if (position - spaces + 1 == currentDayOfMonth) {
@@ -370,6 +391,7 @@ public class CalendarActivity extends Activity implements View.OnClickListener, 
 
         @Override
         public void onClick(View view) {
+
             String gridCellTag = (String) view.getTag();
             //   Intent intent = new Intent(getApplicationContext(), ViewPhotoActivity.class);
 //                intent.putExtra("gridcell", gridCellTag);
@@ -380,9 +402,11 @@ public class CalendarActivity extends Activity implements View.OnClickListener, 
 
 
     //Fetch thumbnail of the image for a date
-    private Bitmap getThumbnail(String sDate) {
+    private Bitmap getThumbnail(String sDate) throws SQLException {
         String imageName = null;
         openDB();
+
+        String s = myDb.getMood(sDate);
 
 //            ImageDetails images = myDb.getImage(sDate);
 //            if (images != null) {
@@ -393,17 +417,22 @@ public class CalendarActivity extends Activity implements View.OnClickListener, 
 //            Log.i("photopath", photoPath);
 
 
-        if (imageName != null) {
+        if (s != null) {
+            Log.i("mood", s);
+           // Uri path = Uri.parse("android.resource://your.package.name/" + R.drawable.sample_1);
+
+
+            String path = "R.drawable." + s;
             BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inSampleSize = 16;  // Experiment with different sizes
-            Bitmap sourceBitmap = BitmapFactory.decodeFile(photoPath, options);
+            options.inSampleSize = 2;  // Experiment with different sizes
+            Bitmap sourceBitmap = BitmapFactory.decodeFile(path, options);
             return sourceBitmap;
         }
         return null;
     }
 
-    private void openDB() {
-        myDb = new DBAdapter(this);
+    private void openDB() throws SQLException {
+        myDb = new DBUserAdapter(this);
         myDb.open();
     }
 
