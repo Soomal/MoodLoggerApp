@@ -13,6 +13,8 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="25dp"
         android:text="Register"
+        android:textStyle="bold"
+        android:textColor="#ff0d66e5"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
 
@@ -28,6 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="First Name: "
+            android:textColor="#ff0d66e5"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <EditText
@@ -35,9 +38,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:ems="10"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
-            android:ems="10"
             android:hint="Enter Your First Name"
             android:inputType="textPersonName" />
 
@@ -57,6 +60,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="Last Name: "
+            android:textColor="#ff0d66e5"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <EditText
@@ -64,9 +68,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:ems="10"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
-            android:ems="10"
             android:hint="Enter Your Last Name"
             android:inputType="textPersonName" />
 
@@ -84,6 +88,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:textColor="#ff0d66e5"
             android:text="Desired Username: "
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -111,6 +116,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:textColor="#ff0d66e5"
             android:text="Enter Password: "
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -138,6 +144,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:textColor="#ff0d66e5"
             android:text="Re-Enter Password: "
             android:textAppearance="?android:attr/textAppearanceMedium" />
 

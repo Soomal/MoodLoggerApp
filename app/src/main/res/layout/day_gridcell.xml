@@ -10,6 +10,5 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:background="@android:color/transparent"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="#000000"></Button>
+        android:textAppearance="?android:attr/textAppearanceMedium"></Button>
 </LinearLayout>

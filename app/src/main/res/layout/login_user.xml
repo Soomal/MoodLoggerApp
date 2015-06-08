@@ -13,6 +13,8 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="25dp"
         android:text="Login"
+        android:textColor="#ff0d66e5"
+        android:textStyle="bold"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <LinearLayout
@@ -26,6 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="Username: "
+            android:textColor="#ff0d66e5"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <EditText
@@ -52,6 +55,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:textColor="#ff0d66e5"
             android:text="Password: "
             android:textAppearance="?android:attr/textAppearanceMedium" />
 

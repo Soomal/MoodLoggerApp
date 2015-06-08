@@ -16,16 +16,13 @@ import android.widget.Toast;
 
 import java.sql.SQLException;
 
-/**
- * Created by vijay on 5/29/2015.
- */
-public class Login_user extends ActionBarActivity {
+public class Login_user extends Activity {
 
 
     EditText user_name_edit_text;
     EditText password_edit_text;
     Button login_button;
-   //final Context context = getApplicationContext();
+    //final Context context = getApplicationContext();
 
 
     @Override
@@ -38,8 +35,6 @@ public class Login_user extends ActionBarActivity {
 
         user_name_edit_text = (EditText) findViewById(R.id.username);
         password_edit_text = (EditText) findViewById(R.id.password);
-
-
 
 
         login_button.setOnClickListener(new View.OnClickListener() {
@@ -58,15 +53,15 @@ public class Login_user extends ActionBarActivity {
         });
 
     }
-        void login_verify() throws SQLException {
 
-            DBUserAdapter dbUser = new DBUserAdapter(Login_user.this);
-            dbUser.open();
-            String password = password_edit_text.getText().toString();
-            String username = user_name_edit_text.getText().toString();
+    void login_verify() throws SQLException {
 
-            if(dbUser.Login(username, password))
-            {
+        DBUserAdapter dbUser = new DBUserAdapter(Login_user.this);
+        dbUser.open();
+        String password = password_edit_text.getText().toString();
+        String username = user_name_edit_text.getText().toString();
+
+        if (dbUser.Login(username, password)) {
                 /*
                 If login is succesful then store the username in a shared preference varaiable
                 This is used in the Chart Activity to retreive the relevant moods logged by this current user.
@@ -76,23 +71,22 @@ public class Login_user extends ActionBarActivity {
 
                 Added by Abhishek
                  */
-                SharedPreferences sp = getSharedPreferences("user_pref", Activity.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sp.edit();
-                editor.putString("user_key", username);
-                editor.commit();
+            SharedPreferences sp = getSharedPreferences("user_pref", Activity.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sp.edit();
+            editor.putString("user_key", username);
+            editor.commit();
 
 
-
-                Intent intent = new Intent(this, MainActivity.class);
-                startActivity(intent);
-            }else{
-                Toast.makeText(Login_user.this, "Invalid Username/Password", Toast.LENGTH_LONG).show();
-            }
-            dbUser.close();
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        } else {
+            Toast.makeText(Login_user.this, "Invalid Username/Password", Toast.LENGTH_LONG).show();
         }
+        dbUser.close();
+    }
 
 
- }
+}
 
 
 

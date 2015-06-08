@@ -22,6 +22,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/button_shape_big"
             android:text="Log your mood"
+            android:textSize="20sp"
             android:textColor="#ffffffff" />
 
         <Button
@@ -32,6 +33,7 @@
             android:layout_marginTop="10dp"
             android:background="@drawable/button_shape_big"
             android:text="Mood Calendar"
+            android:textSize="20sp"
             android:textColor="#ffffffff" />
 
         <Button
@@ -42,6 +44,7 @@
             android:layout_marginTop="10dp"
             android:background="@drawable/button_shape_big"
             android:text="Mood Chart"
+            android:textSize="20sp"
             android:textColor="#ffffffff" />
 
         <Button
@@ -52,6 +55,7 @@
             android:layout_marginTop="10dp"
             android:background="@drawable/button_shape_big"
             android:text="Set Reminder"
+            android:textSize="20sp"
             android:textColor="#ffffffff" />
     </LinearLayout>
 </RelativeLayout>

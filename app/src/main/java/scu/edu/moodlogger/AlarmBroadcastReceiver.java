@@ -88,7 +88,7 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(
                 context).setTicker(tickerText)
                 .setDefaults(NotificationCompat.DEFAULT_ALL)
-                .setSmallIcon(R.drawable.ic_action_camera)
+                .setSmallIcon(R.drawable.happy)
                 .setAutoCancel(true)
                 .setContentTitle(title)
                 .setContentText(tickerText)

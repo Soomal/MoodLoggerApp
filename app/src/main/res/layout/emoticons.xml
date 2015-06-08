@@ -17,6 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="@+id/label"
+        android:textColor="#ff0d66e5"
         android:textSize="15sp"></TextView>
 
 </LinearLayout>
