@@ -23,10 +23,11 @@
 
     <scu.edu.moodlogger.PieChart
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="300dp"
         android:id="@+id/pieGraph"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="10dp" />
 
 </LinearLayout>

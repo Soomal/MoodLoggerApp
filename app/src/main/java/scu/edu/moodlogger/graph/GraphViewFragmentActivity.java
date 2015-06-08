@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,6 +48,9 @@ public class GraphViewFragmentActivity extends AppCompatActivity {
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
+
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
 //        setSupportActionBar(toolbar);
     }
@@ -70,15 +74,13 @@ public class GraphViewFragmentActivity extends AppCompatActivity {
             switch (position)
             {
                 case 0:
-                    fragment = new LineGraphViewFragment();
-                    break;
-                case 1:
-                    fragment = new BarGraphViewFragment();
-                    break;
-                case 2:
                     fragment = new PieGraphViewFragment();
                     break;
-                default:
+                case 1:
+                    fragment = new LineGraphViewFragment();
+                    break;
+                case 2:
+                    fragment = new BarGraphViewFragment();
                     break;
             }
             return fragment;
