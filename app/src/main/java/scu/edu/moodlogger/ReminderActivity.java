@@ -6,14 +6,11 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.ImageButton;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -24,7 +21,7 @@ public class ReminderActivity extends Activity {
 
     Calendar calendar;
     TimePicker timePicker;
-    ImageButton buttonSet;
+    Button buttonSet;
     CheckBox checkBox;
     PendingIntent pendingNotification;
     AlarmManager alarmManager;
@@ -43,7 +40,7 @@ public class ReminderActivity extends Activity {
         isActive = settings.getBoolean("isAlarmActive", false);
 
         timePicker = (TimePicker) findViewById(R.id.timePicker);
-        buttonSet = (ImageButton) findViewById(R.id.button_setAlarm);
+        buttonSet = (Button) findViewById(R.id.button_setAlarm);
         checkBox = (CheckBox) findViewById(R.id.checkBox);
 
         calendar = Calendar.getInstance();
