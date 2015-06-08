@@ -15,6 +15,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import java.util.Calendar;
 
@@ -81,6 +82,9 @@ public class ReminderActivity extends Activity {
                     alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
                             AlarmManager.INTERVAL_DAY, pendingNotification);
                     isActive = true;
+
+                    Toast toast = Toast.makeText(getApplicationContext(), "Reminder Set", Toast.LENGTH_SHORT);
+                    toast.show();
                 } else {
                     alarmManager.cancel(pendingNotification);
                 }

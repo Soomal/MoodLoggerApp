@@ -33,44 +33,48 @@ public class PieGraphViewFragment extends Fragment {
     private void init() {
         //getting the user id that has been temporarily stored
         Activity activity = getActivity();
+        Context context = activity.getApplicationContext();
+
+        // Getting the user id that has been temporarily stored.
         SharedPreferences sp = activity.getSharedPreferences("user_pref", Activity.MODE_PRIVATE);
-        String userId = sp.getString("user_key","");
+        String userId = sp.getString("user_key", "");
         DataTypeChart data = new DataTypeChart();
+        CharSequence text = "";
+        int duration = Toast.LENGTH_SHORT;
 
-        //connect to the database.
-//        try {
-//            DBUserAdapter dbUser = new DBUserAdapter(activity);
-//            dbUser.open();
-//            data=dbUser.getData(userId);
-//        }
-//
-//        catch(Exception e)
-//        {
-//            Context context = activity.getApplicationContext();
-//            CharSequence text = userId;
-//            int duration = Toast.LENGTH_SHORT;
-//
-//            Toast toast = Toast.makeText(context, text, duration);
-//            toast.show();
-//        }
+        /**
+         * Connection with the database.
+         */
+        try {
+            DBUserAdapter dbUser = new DBUserAdapter(activity);
+            dbUser.open();
+            data = dbUser.getData(userId);
 
+            text = userId + " " + data.numberOfData;
+
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+        }
+        catch(Exception e) {
+            text = "Failed";
+
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+        }
+
+        final int limit = 12;
         PieChart pieChart = (PieChart) mView.findViewById(R.id.pieGraph);
-        float[] chartData = new float[6];
-        chartData[0] = 34;
-        chartData[1] = 24;
-        chartData[2] = 32;
-        chartData[3] = 24;
-        chartData[4] = 53;
-        chartData[5] = 23;
-        pieChart.setData(chartData);
+        float[] datas = new float[limit];
+        String[] labels = new String[limit];
+        int count=0;
+        for(int i=0; i<limit; i++) {
+            if(data.datas[i]!=0) {
+                datas[count]=data.datas[i];
+                labels[count++]=data.labels[i];
+            }
+        }
 
-        String[] labels = new String[6];
-        labels[0] = "JOHN";
-        labels[1] = "GEORGE";
-        labels[2] = "RAYMOND";
-        labels[3] = "STEPHEN";
-        labels[4] = "JACK";
-        labels[5] = "BOBBY";
+        pieChart.setData(datas);
         pieChart.setLabels(labels);
     }
 }
