@@ -1,5 +1,7 @@
 # MoodLoggerApp
 
+[![Join the chat at https://gitter.im/Soomal/MoodLoggerApp](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Soomal/MoodLoggerApp?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Mood Piggy Bank:  An android app to log all your good and bad moments.
 
 Feature	Description
