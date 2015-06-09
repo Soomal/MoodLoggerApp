@@ -1,19 +1,16 @@
 # MoodLoggerApp
 
-Mood Piggy Bank:  An android app to log all your good and bad moments.
+This Application helps in tracking all the good and bad moments and instills a positive or optimistic nature. An analysis of negative factors can also help in root cause analysis of the things that go wrong in anyone’s life.
+With our application any user can track moods everyday. The application allows logging a mood multiple times. The application also has a feature to set a reminder, which will notify user everyday to log the mood. User can view his mood trends in a graph and pie chart.  User can also view his moods over the time in a calendar. Our App supports multiple users. 
 
 Feature	Description
-Mood logging	Primary feature for this app to work. User can log the mood by choosing from 5 different emojis.
-Mood logging notification	Primary vehicle for reminding people to log their moods.
-Visual graph	Shows trends in mood over time.
-Visual calendar	Show emoji over a visual calendar that shows moods over time.
-Notification	User receives a reminder to log the mood everyday.
-Widget	User can log mood without opening the app from home screen of phone 
-Watch interface	Has notifications, and logging interface.
-Uplifting quotes	Shown randomly with notifications or when logging mood.
-GPS logging	Logs where you are when setting your mood.
-Heart rate logging	Logs your heart rate when setting your mood.
-Camera mood logging	Take a selfie when you do your logging. It can be a picture of anything.
+  Mood logging- Primary feature for this app to work. User can log the mood by choosing from 12 different emojis.
+  Mood logging notification- Primary vehicle for reminding people to log their moods. User can dismiss or snooze the reminder.      If user chooses to snooze then he will be reminded again in 60 minutes. If user clicks on the notification, it will open up     the app.
+  Visual graph - Shows trends in mood over time in a pie chart and a line graph. 
+  Visual calendar- Show emoji over a visual calendar that shows moods over time.
+  Watch interface- User will also get notification on android watch paired to the android device. He/she can take action like       snooze and dismiss from the App too.
+  Multiple user support	Multiple users can use the App. 
+
 
 Tools - Android Studio, Sqlite
 
