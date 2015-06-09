@@ -16,8 +16,17 @@ import android.widget.Toast;
 
 import scu.edu.moodlogger.graph.GraphViewFragmentActivity;
 
+/**
+ * @author Soomal Choudhary
+ *         This class provides the main screen for the app. From here user can access
+ *         all the functionalities of the app.
+ */
 
 public class MainActivity extends Activity {
+
+    /**
+     * Called when the activity is first created.
+     */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,29 +39,16 @@ public class MainActivity extends Activity {
         Button reminderBtn = (Button) findViewById(R.id.imageButton_reminder);
 
 
-        /*
-        Added by Abhishek.
-        Show the user that he has logged in
-        Something like a debug point for me now.
-         */
-
-
-        //Modified
-        //get the user id when the login is successful.
+        //Retrieve the user id when the login is successful
         //using shared preferences.
 
         SharedPreferences sp = getSharedPreferences("user_pref", Activity.MODE_PRIVATE);
         String userid = sp.getString("user_key", "");
 
-        Context context = getApplicationContext();
-        CharSequence text = userid;
-        int duration = Toast.LENGTH_SHORT;
 
-
-        Toast toast = Toast.makeText(context, text, duration);
-        toast.show();
-
-
+        /**
+         * Redirects to the mood logging screen
+         */
         moodBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,6 +60,10 @@ public class MainActivity extends Activity {
         });
 
 
+        /**
+         * Redirects to the calendar screen
+         */
+
         calendarBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,6 +73,10 @@ public class MainActivity extends Activity {
 
             }
         });
+
+        /**
+         * Redirects to the Graph and charts screen
+         */
 
         chartBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,6 +89,9 @@ public class MainActivity extends Activity {
             }
         });
 
+        /**
+         * Redirects to the set reminder screen
+         */
         reminderBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

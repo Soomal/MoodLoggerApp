@@ -11,8 +11,11 @@ import android.widget.FrameLayout;
 import java.util.ArrayList;
 
 /**
- *
+ * @author Abhishek Brijepatil
+ *         This class provides Pie chart object to dispaly diffrenet moods.
  */
+
+
 public class PieChart extends FrameLayout {
 
     float total = 0;
@@ -108,8 +111,8 @@ public class PieChart extends FrameLayout {
         } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
             float diffX = preX - event.getX();
             float diffY = preY - event.getY();
-           angle += diffX;
-        }else if(event.getAction() == MotionEvent.ACTION_UP){
+            angle += diffX;
+        } else if (event.getAction() == MotionEvent.ACTION_UP) {
             animate().setInterpolator(new DecelerateInterpolator(1.5f));
             animate().rotation(angle);
             preX = event.getX();

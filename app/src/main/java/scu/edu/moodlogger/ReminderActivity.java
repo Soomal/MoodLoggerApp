@@ -16,6 +16,10 @@ import android.widget.Toast;
 
 import java.util.Calendar;
 
+/**
+ * @author Soomal Choudhary
+ * This class provides functionality to set the reminder.
+ */
 
 public class ReminderActivity extends Activity {
 
@@ -29,6 +33,9 @@ public class ReminderActivity extends Activity {
     public static final String PREFS_NAME = "MyPrefsFile";
 
 
+    /**
+     * Called when the activity is first created.
+     */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

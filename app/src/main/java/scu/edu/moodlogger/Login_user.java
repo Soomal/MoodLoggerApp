@@ -16,14 +16,22 @@ import android.widget.Toast;
 
 import java.sql.SQLException;
 
+
+/**
+ * @author Abhishek Brijepatil
+ *         This class provides login functionality to the app.
+ */
+
 public class Login_user extends Activity {
 
 
     EditText user_name_edit_text;
     EditText password_edit_text;
     Button login_button;
-    //final Context context = getApplicationContext();
 
+    /**
+     * Called when the activity is first created.
+     */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,11 +73,6 @@ public class Login_user extends Activity {
                 /*
                 If login is succesful then store the username in a shared preference varaiable
                 This is used in the Chart Activity to retreive the relevant moods logged by this current user.
-                */
-
-                /*
-
-                Added by Abhishek
                  */
             SharedPreferences sp = getSharedPreferences("user_pref", Activity.MODE_PRIVATE);
             SharedPreferences.Editor editor = sp.edit();

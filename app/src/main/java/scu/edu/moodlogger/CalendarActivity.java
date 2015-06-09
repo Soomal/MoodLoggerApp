@@ -49,6 +49,13 @@ import java.util.Locale;
 
 import static java.util.Calendar.MONTH;
 
+/**
+ * @author Soomal Choudhary
+ *         This class provides calendar to display moods over the month.
+ *         User can go back and forth in the months view. When a date is clicked
+ *         it will show recorded mood on that date.
+ */
+
 
 public class CalendarActivity extends Activity implements View.OnClickListener, GestureOverlayView.OnGesturePerformedListener {
     private static final String tag = "Main";
@@ -415,12 +422,12 @@ public class CalendarActivity extends Activity implements View.OnClickListener, 
 
             String gridCellTag = (String) view.getTag();
             String s = myDb.getMood(gridCellTag, userid);
-            if(s!=null){
+            if (s != null) {
                 Toast.makeText(
-                        getApplicationContext(),"You were "+s+" on "+ gridCellTag , Toast.LENGTH_SHORT).show();
-            }else{
+                        getApplicationContext(), "You were " + s + " on " + gridCellTag, Toast.LENGTH_SHORT).show();
+            } else {
                 Toast.makeText(
-                        getApplicationContext(),"No mood recorded" , Toast.LENGTH_SHORT).show();
+                        getApplicationContext(), "No mood recorded", Toast.LENGTH_SHORT).show();
             }
 //               Intent intent = new Intent(getApplicationContext(), ViewPhotoActivity.class);
 //                intent.putExtra("gridcell", gridCellTag);
@@ -454,7 +461,7 @@ public class CalendarActivity extends Activity implements View.OnClickListener, 
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inSampleSize = 4;  // Experiment with different sizes
             sourceBitmap = BitmapFactory.decodeFile(f.getAbsolutePath(), options);
-            Log.i("path", f.getAbsolutePath().toString() );
+            Log.i("path", f.getAbsolutePath().toString());
         }
         return sourceBitmap;
 

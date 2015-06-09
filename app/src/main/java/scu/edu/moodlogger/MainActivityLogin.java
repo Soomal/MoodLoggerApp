@@ -8,8 +8,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-
+/**
+ * @author Abhishek Brijepatil
+ *         This class provides login functionality to the app.
+ */
 public class MainActivityLogin extends Activity {
+
+
+    /**
+     * Called when the activity is first created.
+     */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,11 +26,17 @@ public class MainActivityLogin extends Activity {
     }
 
 
+    /**
+     * Redirects to the register screen
+     */
     public void register(View view) {
         Intent intent = new Intent(this, Register_user.class);
         startActivity(intent);
     }
 
+    /**
+     * Redirects to the login screen
+     */
     public void login(View view) {
 
         Intent intent = new Intent(this, Login_user.class);

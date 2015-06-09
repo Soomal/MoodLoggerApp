@@ -12,6 +12,10 @@ import java.security.Timestamp;
 import java.sql.SQLException;
 import java.util.Date;
 
+/**
+ * @author Soomal Choudhary
+ *         This class provides functionality to interact with database.
+ */
 
 public class DBUserAdapter {
 
@@ -60,26 +64,6 @@ public class DBUserAdapter {
                     ")";
 
 
-    /*
-        Table to log moods
-        CREATE TABLE IF NOT EXISTS `mood` (
-  `userid` int(11) NOT NULL,
-  `moodid` int(11) NOT NULL,
-  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `picture` varchar(200) NOT NULL,
-  `notes` varchar(1000) NOT NULL,
-  `location` varchar(50) NOT NULL
-)
-     */
-
-
-
-
-    /*
-    INSERT INTO `test`.`mood` (`userid`, `moodid`, `timestamp`, `picture`, `notes`, `location`) VALUES ('ab', '2', CURRENT_TIMESTAMP, 'Sleepy for a change', 'Sleepy', ''), ('ab', '3', CURRENT_TIMESTAMP, 'Bored', 'Bored', 'Bored');
-     */
-
-
     // Add a new set of values to be inserted into the database.
     public long insertMood(String userId, int moodId, String mood, String date, String picture, String notes, String location) {
         ContentValues initialValues = new ContentValues();
@@ -94,8 +78,6 @@ public class DBUserAdapter {
         // Insert the data into the database.
         return db.insert(DATABASE_TABLE_MOODS, null, initialValues);
     }
-
-
 
 
     private Context context = null;
@@ -160,7 +142,7 @@ public class DBUserAdapter {
     }
 
 
-    public int getCount(String username, String mood)  {
+    public int getCount(String username, String mood) {
         Cursor mCursor = db.rawQuery("SELECT * FROM " + DATABASE_TABLE_MOODS + " WHERE userid=? AND mood=?", new String[]{username, mood});
 
         return mCursor.getCount();
@@ -175,11 +157,10 @@ public class DBUserAdapter {
     public DataTypeChart getData(String username) {
 
 
-
         DataTypeChart data = new DataTypeChart();
 
 
-        String where = KEY_DATE + " LIKE '%" +"2015"+"%' AND " +KEY_USERID+ " = '" +username+ "'";
+        String where = KEY_DATE + " LIKE '%" + "2015" + "%' AND " + KEY_USERID + " = '" + username + "'";
         String orderBy = KEY_ROWID + " DESC";
         Cursor c = db.query(true, DATABASE_TABLE_MOODS, ALL_KEYS_MOOD, where, null, null, null, orderBy, null);
 
@@ -189,19 +170,17 @@ public class DBUserAdapter {
             cMood = c.getString(c.getColumnIndex(KEY_MOOD));
 
 
-            }
+        }
 
 
         data.numberOfData = c.getCount();
 
-        for(int i=0;i<12;i++)
-        {
-           data.datas[i]=getCount(username,data.labels[i]);
+        for (int i = 0; i < 12; i++) {
+            data.datas[i] = getCount(username, data.labels[i]);
 
-            Log.i("myAppTag", "Found log-entry for my app:" + data.labels[i]+getCount(username,data.labels[i]));
+            Log.i("myAppTag", "Found log-entry for my app:" + data.labels[i] + getCount(username, data.labels[i]));
 
         }
-
 
 
         return data;
@@ -209,13 +188,13 @@ public class DBUserAdapter {
 
 
     /**
-    * @input : String user id, String date
-    * @output: String mood
-    */
+     * @input :  user id,  date
+     * @output: mood
+     */
 
     public String getMood(String sDate, String userid) {
 
-        String where = KEY_DATE + " LIKE '%" +sDate+"%' AND " +KEY_USERID+ " = '" +userid+ "'";
+        String where = KEY_DATE + " LIKE '%" + sDate + "%' AND " + KEY_USERID + " = '" + userid + "'";
         String orderBy = KEY_ROWID + " DESC";
         Cursor c = db.query(true, DATABASE_TABLE_MOODS, ALL_KEYS_MOOD, where, null, null, null, orderBy, null);
 

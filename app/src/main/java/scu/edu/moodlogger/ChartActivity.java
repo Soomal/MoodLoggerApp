@@ -10,17 +10,23 @@ import android.widget.Toast;
 
 import scu.edu.moodlogger.PieChart;
 
+/**
+ * @author Abhishek Brijepatil
+ *         This class provides chart visualization of the moods.
+ */
+
+
 public class ChartActivity extends Activity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)  {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chart);
 
         //getting the user id that has been temporarily stored
         SharedPreferences sp = getSharedPreferences("user_pref", Activity.MODE_PRIVATE);
-        String userid = sp.getString("user_key","");
-        DataTypeChart data= new DataTypeChart();
+        String userid = sp.getString("user_key", "");
+        DataTypeChart data = new DataTypeChart();
         /**
          * Connection with the database
          *
@@ -28,48 +34,39 @@ public class ChartActivity extends Activity {
         try {
             DBUserAdapter dbUser = new DBUserAdapter(ChartActivity.this);
             dbUser.open();
-           // String data_String;
-            data=dbUser.getData(userid);
+            // String data_String;
+            data = dbUser.getData(userid);
 
             Context context = getApplicationContext();
-            CharSequence text = userid+data.numberOfData;
+            CharSequence text = userid + data.numberOfData;
             int duration = Toast.LENGTH_SHORT;
 
 
-            Toast toast = Toast.makeText(context, text, duration);
-            toast.show();
+//            Toast toast = Toast.makeText(context, text, duration);
+//            toast.show();
 
-        }
-
-        catch(Exception e)
-        {
+        } catch (Exception e) {
             Context context = getApplicationContext();
             CharSequence text = "Failed";
             int duration = Toast.LENGTH_SHORT;
 
 
-            Toast toast = Toast.makeText(context, text, duration);
-            toast.show();
+//            Toast toast = Toast.makeText(context, text, duration);
+//            toast.show();
 
 
         }
 
 
-
-
-
-
         PieChart pieChart = (PieChart) findViewById(R.id.pieChart);
         float[] datas = new float[12];
         String[] labels = new String[12];
-        int count=0;
-        for(int i=0;i<12;i++)
-        {
+        int count = 0;
+        for (int i = 0; i < 12; i++) {
 
-            if(data.datas[i]!=0)
-            {
-                datas[count]=data.datas[i];
-                labels[count++]=data.labels[i];
+            if (data.datas[i] != 0) {
+                datas[count] = data.datas[i];
+                labels[count++] = data.labels[i];
 
             }
 
@@ -80,7 +77,6 @@ public class ChartActivity extends Activity {
         pieChart.setData(datas);
         pieChart.setLabels(labels);
     }
-
 
 
 }

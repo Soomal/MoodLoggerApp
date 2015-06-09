@@ -15,6 +15,10 @@ import android.widget.Toast;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * @author Soomal Choudhary
+ *         This class provides the mood logging functionality.
+ */
 
 public class MoodLoggingActivity extends Activity {
 
@@ -24,6 +28,10 @@ public class MoodLoggingActivity extends Activity {
     static final String[] images = new String[]{"happy", "confused", "naughty", "angry",
             "excited", "cool", "bored", "sleepy", "neutral", "crying", "romantic", "sad"
     };
+
+    /**
+     * Called when the activity is first created.
+     */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +44,8 @@ public class MoodLoggingActivity extends Activity {
 
         gridView.setAdapter(new MyAdapter(this, images));
 
+        //When clicked on any mood, it will be saved to the database with date and user id.
+
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView parent, View v,
                                     int position, long id) {
@@ -47,7 +57,6 @@ public class MoodLoggingActivity extends Activity {
                     String userid = sp.getString("user_key", "");
                     String date_current = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
                     String mood = ((TextView) v.findViewById(R.id.label_emoticon)).getText().toString();
-                    //insertRow(String userId, int moodId, String date, String picture, String notes, String location) {
 
                     dbUser.insertMood(userid, position + 1, mood, date_current, "", "", "");
 

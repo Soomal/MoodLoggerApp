@@ -10,6 +10,13 @@ import android.os.SystemClock;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+
+/**
+ * @author Soomal Choudhary
+ *         This class provides receiver for the notifications.
+ */
+
+
 public class AlarmBroadcastReceiver extends BroadcastReceiver {
 
     public static final int NOTIFICATION_ID = 1;
@@ -19,6 +26,8 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
     private PendingIntent snoozePIntent;
     private NotificationManager notificationManager;
 
+    //This method handles when a notification arrives. User can dismiss or snooze the notification
+    //If user clicks on the notification, it will open up the app.
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -47,8 +56,8 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
                 AlarmManager alarmManager = (AlarmManager) context.getSystemService(context.ALARM_SERVICE);
                 alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
                         SystemClock.elapsedRealtime() +
-                                60 * 60 * 1000, pendingNotification); //20 sec for demo
-                // romantic * romantic * 1000, pendingNotification);
+                                20 * 1000, pendingNotification); //20 sec for demo
+                // 60 * 60 * 1000, pendingNotification);
 
             }
         } else {

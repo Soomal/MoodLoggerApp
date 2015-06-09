@@ -1,9 +1,9 @@
 package scu.edu.moodlogger;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,11 +11,12 @@ import android.widget.Toast;
 
 import java.sql.SQLException;
 
-
 /**
- * Created by vijay on 5/29/2015.
+ * @author Abhishek Brijepatil
+ *         This class provides registration functionality to the app.
  */
-public class Register_user extends ActionBarActivity {
+
+public class Register_user extends Activity {
     EditText fname;
     EditText lname;
     EditText uname;
@@ -24,7 +25,9 @@ public class Register_user extends ActionBarActivity {
 
     String firstname, lastname, password, rpassword, username;
 
-
+    /**
+     * Called when the activity is first created.
+     */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +49,6 @@ public class Register_user extends ActionBarActivity {
         pass = (EditText) findViewById(R.id.password);
         rpass = (EditText) findViewById(R.id.repassword);
         uname = (EditText) findViewById(R.id.username);
-
-
 
 
         register.setOnClickListener(new View.OnClickListener() {
@@ -114,7 +115,6 @@ public class Register_user extends ActionBarActivity {
         dbUser.open();
 
         dbUser.AddUser(firstname, lastname, username, password);
-
 
 
     }

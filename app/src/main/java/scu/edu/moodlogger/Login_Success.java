@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 
+
 /**
- * Created by vijay on 5/30/2015.
+ * @author Abhishek Brijepatil
  */
+
 public class Login_Success extends Activity {
 
     @Override
