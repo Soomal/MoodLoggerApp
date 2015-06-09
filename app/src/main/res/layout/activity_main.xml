@@ -58,4 +58,18 @@
             android:textSize="20sp"
             android:textColor="#ffffffff" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/title_main"
+        android:textStyle="bold"
+        android:textColor="#ff0d66e5"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:phoneNumber="false" />
+
 </RelativeLayout>

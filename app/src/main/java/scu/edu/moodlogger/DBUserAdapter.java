@@ -8,10 +8,13 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.lang.reflect.Array;
 import java.security.Timestamp;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 
+import scu.edu.moodlogger.graph.GraphViewData;
 /**
  * @author Soomal Choudhary
  *         This class provides functionality to interact with database.
@@ -206,5 +209,36 @@ public class DBUserAdapter {
         }
         return cMood;
 
+    }
+
+    /**
+     * Query used to populate line graph.
+     */
+    public GraphViewData[] getLineGraphData(String userId) {
+        final String query =
+                "SELECT " + KEY_DATE + ", " + KEY_MOODID + " " +
+                "FROM " + DATABASE_TABLE_MOODS + " " +
+                "WHERE " + KEY_USERID + " = '" + userId + "' " +
+                "ORDER BY " + KEY_DATE + " ASC;";
+
+        GraphViewData data;
+        ArrayList<GraphViewData> dataArray = new ArrayList<GraphViewData>();
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor.moveToFirst()) {
+            do {
+                data = new GraphViewData(
+                        cursor.getString(cursor.getColumnIndex(KEY_DATE)),
+                        cursor.getInt(cursor.getColumnIndex(KEY_MOODID)));
+                dataArray.add(data);
+            }
+            while (cursor.moveToNext());
+        }
+
+        GraphViewData[] dataList = null;
+        if (dataArray.size() > 0) {
+            dataList = dataArray.toArray(new GraphViewData[dataArray.size()]);
+        }
+
+        return dataList;
     }
 }

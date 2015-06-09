@@ -79,16 +79,16 @@ public class GraphViewFragmentActivity extends AppCompatActivity {
                 case 1:
                     fragment = new LineGraphViewFragment();
                     break;
-                case 2:
-                    fragment = new BarGraphViewFragment();
-                    break;
+//                case 2:
+//                    fragment = new BarGraphViewFragment();
+//                    break;
             }
             return fragment;
         }
 
         @Override
         public int getCount() {
-            return 3;
+            return 2;
         }
 
         @Override

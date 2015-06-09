@@ -30,7 +30,8 @@ public class PieSlice extends View {
 
         labelPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         labelPaint.setColor(Color.WHITE);
-        labelPaint.setTextSize(20);
+        labelPaint.setTextSize(28);
+        labelPaint.setShadowLayer(3.0f, 3.0f, 3.0f, Color.BLACK);
     }
 
     Rect labelRect = new Rect();
