@@ -54,11 +54,16 @@ public class MoodLoggingActivity extends Activity {
                     dbUser.open();
                     //getting the user id that has been temporarily stored
                     SharedPreferences sp = getSharedPreferences("user_pref", Activity.MODE_PRIVATE);
-                    String userid = sp.getString("user_key", "");
-                    String date_current = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-                    String mood = ((TextView) v.findViewById(R.id.label_emoticon)).getText().toString();
+                    Mood currentMood = new Mood();
+                    currentMood.setUserId(sp.getString("user_key", ""));
+                    currentMood.setDate(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+                    currentMood.setMood(((TextView) v.findViewById(R.id.label_emoticon)).getText().toString());
+                    currentMood.setMoodId(position + 1);
+                    currentMood.setPicture("");
+                    currentMood.setLocation("");
+                    currentMood.setNotes("");
 
-                    dbUser.insertMood(userid, position + 1, mood, date_current, "", "", "");
+                    dbUser.insertMood(currentMood);
 
                 } catch (Exception e) {
 

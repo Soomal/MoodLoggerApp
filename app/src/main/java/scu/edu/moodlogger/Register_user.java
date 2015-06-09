@@ -23,7 +23,8 @@ public class Register_user extends Activity {
     EditText pass;
     EditText rpass;
 
-    String firstname, lastname, password, rpassword, username;
+    AppUser user;
+    String rpassword;
 
     /**
      * Called when the activity is first created.
@@ -88,7 +89,12 @@ public class Register_user extends Activity {
 
                 }
                 try {
-                    connect_to_db();
+                    user = new AppUser();
+                    user.setFirstname(fname.getText().toString());
+                    user.setLastname(lname.getText().toString());
+                    user.setPassword(pass.getText().toString());
+                    user.setUsername(uname.getText().toString());
+                    connect_to_db(user);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -103,18 +109,12 @@ public class Register_user extends Activity {
 
     }
 
-    void connect_to_db() throws SQLException {
-
-        firstname = fname.getText().toString();
-        lastname = lname.getText().toString();
-        password = pass.getText().toString();
-        username = uname.getText().toString();
-        rpassword = rpass.getText().toString();
+    void connect_to_db(AppUser user) throws SQLException {
 
         DBUserAdapter dbUser = new DBUserAdapter(Register_user.this);
         dbUser.open();
 
-        dbUser.AddUser(firstname, lastname, username, password);
+        dbUser.AddUser(user.getFirstname(), user.getLastname(), user.getUsername(), user.getPassword());
 
 
     }

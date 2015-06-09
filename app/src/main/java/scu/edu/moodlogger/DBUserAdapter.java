@@ -65,15 +65,15 @@ public class DBUserAdapter {
 
 
     // Add a new set of values to be inserted into the database.
-    public long insertMood(String userId, int moodId, String mood, String date, String picture, String notes, String location) {
+    public long insertMood(Mood currentMood) {
         ContentValues initialValues = new ContentValues();
-        initialValues.put(KEY_USERID, userId);
-        initialValues.put(KEY_MOODID, moodId);
-        initialValues.put(KEY_MOOD, mood);
-        initialValues.put(KEY_DATE, date);
-        initialValues.put(KEY_PICTURE, picture);
-        initialValues.put(KEY_NOTE, notes);
-        initialValues.put(KEY_LOCATION, location);
+        initialValues.put(KEY_USERID, currentMood.getUserId());
+        initialValues.put(KEY_MOODID, currentMood.getMoodId());
+        initialValues.put(KEY_MOOD, currentMood.getMood());
+        initialValues.put(KEY_DATE, currentMood.getDate());
+        initialValues.put(KEY_PICTURE, currentMood.getPicture());
+        initialValues.put(KEY_NOTE, currentMood.getNotes());
+        initialValues.put(KEY_LOCATION, currentMood.getLocation());
 
         // Insert the data into the database.
         return db.insert(DATABASE_TABLE_MOODS, null, initialValues);

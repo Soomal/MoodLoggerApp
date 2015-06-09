@@ -49,11 +49,6 @@ public class PieGraphViewFragment extends Fragment {
             DBUserAdapter dbUser = new DBUserAdapter(activity);
             dbUser.open();
             data = dbUser.getData(userId);
-
-            text = userId + " " + data.numberOfData;
-
-            Toast toast = Toast.makeText(context, text, duration);
-            toast.show();
         }
         catch(Exception e) {
             text = "Failed";
