@@ -5,10 +5,10 @@ package scu.edu.moodlogger;
  */
 public class AppUser {
 
-    String firstname;
-    String lastname;
-    String username;
-    String password;
+    private String firstname;
+    private String lastname;
+    private String username;
+    private String password;
 
     public String getFirstname() {
         return firstname;

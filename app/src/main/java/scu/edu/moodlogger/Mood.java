@@ -5,13 +5,13 @@ package scu.edu.moodlogger;
  */
 public class Mood {
 
-    String userId;
-    int moodId;
-    String mood;
-    String date;
-    String picture;
-    String notes;
-    String location;
+    private String userId;
+    private int moodId;
+    private String mood;
+    private String date;
+    private String picture;
+    private String notes;
+    private String location;
 
     public String getUserId() {
         return userId;
